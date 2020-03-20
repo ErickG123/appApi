@@ -19,11 +19,23 @@ export class Tab1Page {
   //Lista para os usuários
   public listaUsuarios = [];
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+    //Para conseguir mostrar na tela é preciso antes chamar o metodo criado
+    //No caso o buscaUsuarios
+    this.buscarUsuarios(this.page);
+
+  }
 
   public buscarUsuarios(pagina: Number){
     this.userService.listarUsuarios(pagina).subscribe(dados =>{
+      //Dados para paginação
+      this.page = dados['page'];
+      this.totalPaginas = dados['total_pages'];
+      this.usuariosPagina = dados['per_page'];
+      this.totalUsuario = dados['total'];
 
+      //Dados para a listagem de usuários
+      this.listaUsuarios = dados['data'];
     });
 
   }
